@@ -106,5 +106,33 @@ window.Sideview = (function () {
     }
     el.ruler.innerHTML = html;
   }
-  return { init: init, update: update, win: win };
+  // 拖曳：人物 / 相機（pointer events，滑鼠與觸控通用）
+  function bindDrag() {
+    var svg = el.sideview, target = null, hinted = false;
+    function evX(ev) {
+      var r = svg.getBoundingClientRect();
+      return (ev.clientX - r.left) / r.width * 1000;
+    }
+    function down(id, name) {
+      el[id].addEventListener('pointerdown', function (ev) {
+        if (UI.state().dollyRunning) return;
+        target = name; ev.preventDefault();
+        try { svg.setPointerCapture(ev.pointerId); } catch (e) { /* 合成事件無作用中指標 */ }
+        if (!hinted) { hinted = true; el.camHint.classList.add('hidden'); }
+      });
+    }
+    down('personG', 'person'); down('camHit', 'cam');
+    svg.addEventListener('pointermove', function (ev) {
+      if (!target) return;
+      var s = UI.state(), W = win(s);
+      var w = W.lo + (evX(ev) - 40) / W.S;
+      if (target === 'person') UI.set({ subjectZ: w });
+      else UI.set({ camZ: w });
+    });
+    ['pointerup', 'pointercancel'].forEach(function (t) {
+      svg.addEventListener(t, function () { target = null; });
+    });
+  }
+
+  return { init: init, update: update, win: win, bindDrag: bindDrag };
 })();
