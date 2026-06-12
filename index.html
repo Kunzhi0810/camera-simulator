@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>鏡頭模擬器｜一張圖看懂景深</title>
+<meta name="description" content="互動模擬焦段、光圈、距離與片幅：側視圖即時顯示清晰範圍，3 秒看懂景深。">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="site-head">
+  <h1>📷 鏡頭模擬器</h1>
+  <p>拖動<b>相機</b>和<b>人物</b>，調整焦段與光圈——粉紅色帶＝清晰範圍</p>
+</header>
+
+<main class="wrap">
+  <section class="stage card">
+    <svg id="sideview" viewBox="0 0 1000 480" aria-label="景深側視示意圖">
+      <defs>
+        <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#f3f1ec"/>
+        </linearGradient>
+        <filter id="blurPerson" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur id="personBlurF" stdDeviation="2.5"/></filter>
+        <filter id="blurTree" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur id="treeBlurF" stdDeviation="2.5"/></filter>
+        <clipPath id="dofClip"><rect id="dofClipRect" x="0" y="0" width="0" height="480"/></clipPath>
+        <!-- 人物剪影：1 unit = 1cm，100×170，面向左、雙手前伸捧花 -->
+        <g id="person-shape">
+          <circle cx="44" cy="15" r="13"/>
+          <path d="M44,30 C56,32 60,44 60,58 L60,96 C60,101 58,105 54,108 L42,166 L32,166 L43,106 L38,106 L28,162 L18,162 L32,102 L32,60 C32,44 34,33 44,30 Z"/>
+          <path d="M46,42 C38,50 28,56 16,61 L14,68 C28,65 42,58 51,50 Z"/>
+          <circle cx="11" cy="66" r="7"/>
+        </g>
+        <!-- 樹：1 unit = 2cm，100×250 -->
+        <g id="tree-shape">
+          <rect x="44" y="168" width="12" height="82"/>
+          <circle cx="50" cy="104" r="48"/><circle cx="22" cy="140" r="34"/><circle cx="78" cy="142" r="33"/>
+        </g>
+        <!-- 相機：120×80，鏡頭朝右 -->
+        <g id="cam-shape">
+          <rect x="6" y="18" width="64" height="46" rx="8"/>
+          <rect x="20" y="8" width="26" height="12" rx="3"/>
+          <rect x="70" y="28" width="40" height="26" rx="4"/>
+          <circle cx="112" cy="41" r="9"/>
+        </g>
+      </defs>
+      <rect width="1000" height="480" fill="url(#skyGrad)"/>
+      <polygon id="cone" fill="rgba(120,130,145,.13)" stroke="rgba(120,130,145,.45)" stroke-width="1"/>
+      <line id="groundLine" x1="0" y1="408" x2="1000" y2="408" stroke="#c9c5bc" stroke-width="2"/>
+      <g id="ruler"></g>
+      <rect id="bandRect" y="64" height="358" fill="rgba(232,93,117,.28)"/>
+      <line id="nearLine" y1="64" y2="422" stroke="#e85d75" stroke-width="1.5"/>
+      <line id="farLine" y1="64" y2="422" stroke="#e85d75" stroke-width="1.5"/>
+      <text id="nearLabel" class="svg-lbl" text-anchor="middle" y="52"></text>
+      <text id="farLabel" class="svg-lbl" text-anchor="middle" y="52"></text>
+      <text id="infLabel" class="svg-big hidden" x="962" y="100">∞</text>
+      <g id="treeG">
+        <use href="#tree-shape" id="treeBlur" fill="#b9bec7" filter="url(#blurTree)"/>
+        <use href="#tree-shape" id="treeSharp" fill="#3c4450" clip-path="url(#dofClip)"/>
+      </g>
+      <g id="personG" class="grab">
+        <use href="#person-shape" id="personBlur" fill="#b9bec7" filter="url(#blurPerson)"/>
+        <use href="#person-shape" id="personSharp" fill="#16181d" clip-path="url(#dofClip)"/>
+        <rect id="personHit" x="-25" y="-15" width="150" height="200" fill="transparent"/>
+      </g>
+      <text id="heightLabel" class="svg-lbl"></text>
+      <g id="camG" class="grab">
+        <line id="tripod" stroke="#5a5e66" stroke-width="3"/>
+        <use href="#cam-shape" id="camBody" fill="#23262d"/>
+        <rect id="camHit" fill="transparent"/>
+      </g>
+      <text id="camHint" class="svg-lbl" text-anchor="middle">⇄ 相機和人物都可以拖</text>
+      <g id="dofArrow">
+        <line id="dofArrowLine" y1="444" y2="444" stroke="#e8950c" stroke-width="2"/>
+        <text id="dofText" class="svg-big" text-anchor="middle" y="468"></text>
+      </g>
+    </svg>
+    <svg id="miniframe" viewBox="0 0 180 120" aria-label="取景預覽">
+      <rect width="180" height="120" fill="#dde7ef"/>
+      <rect id="mfGround" y="60" width="180" height="60" fill="#cdd5c8"/>
+      <use href="#tree-shape" id="mfTree" fill="#5a6a5e"/>
+      <use href="#person-shape" id="mfPerson" fill="#16181d"/>
+      <rect width="180" height="120" fill="none" stroke="#16181d" stroke-width="4"/>
+      <text id="mfLabel" x="10" y="20" class="svg-lbl"></text>
+    </svg>
+    <div id="dollyCaption" class="caption hidden"></div>
+    <div id="toast" class="toast hidden"></div>
+  </section>
+
+  <section class="data card" id="dataPanel"></section>
+
+  <section class="controls card">
+    <div class="col">
+      <div class="ctl"><label for="inDist">拍攝距離 <output id="outDist"></output></label>
+        <input type="range" id="inDist" min="0.5" max="15" step="0.1" value="3"></div>
+      <div class="ctl"><label for="inFocal">焦段 <output id="outFocal"></output></label>
+        <input type="range" id="inFocal" min="16" max="200" step="1" value="85">
+        <div class="chips" id="focalChips"></div></div>
+      <div class="ctl"><label for="inAperture">光圈 <output id="outAperture"></output></label>
+        <input type="range" id="inAperture" min="0" max="10" step="1" value="2"></div>
+    </div>
+    <div class="col">
+      <div class="ctl"><label>片幅</label><div class="seg" id="sensorSeg">
+        <button data-v="ff" class="on">全片幅</button><button data-v="apsc">APS-C</button><button data-v="m43">M4/3</button></div></div>
+      <div class="ctl"><label>單位</label><div class="seg" id="unitSeg">
+        <button data-v="metric" class="on">公制 m</button><button data-v="imperial">英制 ft</button></div></div>
+      <div class="ctl"><label>場景預設</label><div class="chips" id="presetChips"></div></div>
+      <button id="btnDolly" class="big">▶ Dolly Zoom 示範</button>
+      <button id="btnDollyReset" class="mini hidden">↺ 重置鏡位</button>
+    </div>
+  </section>
+
+  <section id="tips" class="tips"></section>
+  <section class="cards-sec" id="cards"><h2>攝影知識卡</h2></section>
+</main>
+
+<footer class="site-foot">所有數字皆以真實薄透鏡光學公式計算（視角／模糊圈／超焦距）。教學模擬，非特定品牌。<br>
+靈感來自 Jack Herrington 的 depth-of-field 工具（本站為獨立實作，未使用其程式碼）。</footer>
+
+<script src="js/optics.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/sideview.js"></script>
+<script src="js/miniframe.js"></script>
+<script src="js/tips.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
