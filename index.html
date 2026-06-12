@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
@@ -20,8 +20,6 @@
         <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#f3f1ec"/>
         </linearGradient>
-        <filter id="blurPerson" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur id="personBlurF" stdDeviation="2.5"/></filter>
-        <filter id="blurTree" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur id="treeBlurF" stdDeviation="2.5"/></filter>
         <clipPath id="dofClip"><rect id="dofClipRect" x="0" y="0" width="0" height="480"/></clipPath>
         <!-- 人物剪影：1 unit = 1cm，100×170，面向左、雙手前伸捧花 -->
         <g id="person-shape">
@@ -54,13 +52,17 @@
       <text id="farLabel" class="svg-lbl" text-anchor="middle" y="52"></text>
       <text id="infLabel" class="svg-big hidden" x="962" y="100">∞</text>
       <g id="treeG">
-        <use href="#tree-shape" id="treeBlur" fill="#b9bec7" filter="url(#blurTree)"/>
-        <use href="#tree-shape" id="treeSharp" fill="#3c4450" clip-path="url(#dofClip)"/>
+        <use href="#tree-shape" id="treeBlur" fill="#b9bec7"/>
+      </g>
+      <g clip-path="url(#dofClip)">
+        <use href="#tree-shape" id="treeSharp" fill="#3c4450"/>
       </g>
       <g id="personG" class="grab">
-        <use href="#person-shape" id="personBlur" fill="#b9bec7" filter="url(#blurPerson)"/>
-        <use href="#person-shape" id="personSharp" fill="#16181d" clip-path="url(#dofClip)"/>
+        <use href="#person-shape" id="personBlur" fill="#b9bec7"/>
         <rect id="personHit" x="-25" y="-15" width="150" height="200" fill="transparent"/>
+      </g>
+      <g clip-path="url(#dofClip)">
+        <use href="#person-shape" id="personSharp" fill="#16181d"/>
       </g>
       <text id="heightLabel" class="svg-lbl"></text>
       <g id="camG" class="grab">
@@ -91,12 +93,12 @@
   <section class="controls card">
     <div class="col">
       <div class="ctl"><label for="inDist">拍攝距離 <output id="outDist"></output></label>
-        <input type="range" id="inDist" min="0.5" max="15" step="0.1" value="3"></div>
+        <input type="range" autocomplete="off" id="inDist" min="0.5" max="15" step="0.1" value="3"></div>
       <div class="ctl"><label for="inFocal">焦段 <output id="outFocal"></output></label>
-        <input type="range" id="inFocal" min="16" max="200" step="1" value="85">
+        <input type="range" autocomplete="off" id="inFocal" min="16" max="200" step="1" value="85">
         <div class="chips" id="focalChips"></div></div>
       <div class="ctl"><label for="inAperture">光圈 <output id="outAperture"></output></label>
-        <input type="range" id="inAperture" min="0" max="10" step="1" value="2"></div>
+        <input type="range" autocomplete="off" id="inAperture" min="0" max="10" step="1" value="2"></div>
     </div>
     <div class="col">
       <div class="ctl"><label>片幅</label><div class="seg" id="sensorSeg">

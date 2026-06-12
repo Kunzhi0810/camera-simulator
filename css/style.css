@@ -15,6 +15,7 @@ body{margin:0;background:var(--bg);color:var(--ink);
 #miniframe{position:absolute;top:14px;right:14px;width:180px;max-width:28%;
   border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.18)}
 .grab{cursor:grab}
+#personSharp,#treeSharp,#treeBlur{pointer-events:none}
 .svg-lbl{font-size:15px;fill:var(--dim);font-variant-numeric:tabular-nums}
 .svg-big{font-size:24px;font-weight:700;fill:var(--accent);font-variant-numeric:tabular-nums}
 .hidden{display:none}
