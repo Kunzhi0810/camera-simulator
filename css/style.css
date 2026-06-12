@@ -18,6 +18,7 @@ body{margin:0;background:var(--bg);color:var(--ink);
 #personSharp,#treeSharp,#treeBlur{pointer-events:none}
 .svg-lbl{font-size:15px;fill:var(--dim);font-variant-numeric:tabular-nums}
 .svg-big{font-size:24px;font-weight:700;fill:var(--accent);font-variant-numeric:tabular-nums}
+.mf-lbl{font-size:15px;font-weight:700;fill:#16181d;paint-order:stroke;stroke:#ffffff;stroke-width:3px}
 .hidden{display:none}
 .caption,.toast{position:absolute;left:50%;transform:translateX(-50%);
   background:rgba(22,24,29,.92);color:#fff;padding:10px 16px;border-radius:10px;
