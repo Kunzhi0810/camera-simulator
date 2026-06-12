@@ -1,1 +1,5 @@
-/* main：Task 3 起逐步擴充 */
+window.addEventListener('DOMContentLoaded', function () {
+  UI.bind();
+  UI.subscribe(UI.updateOutputs);
+  UI.set({});
+});
