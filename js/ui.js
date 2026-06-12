@@ -107,6 +107,12 @@ window.UI = (function () {
     document.querySelectorAll('#focalChips button').forEach(function (b) {
       b.classList.toggle('on', parseInt(b.dataset.f, 10) === Math.round(s.focal));
     });
+    document.querySelectorAll('#sensorSeg button').forEach(function (b) {
+      b.classList.toggle('on', b.dataset.v === s.sensor);
+    });
+    document.querySelectorAll('#unitSeg button').forEach(function (b) {
+      b.classList.toggle('on', b.dataset.v === s.units);
+    });
     var u = s.units;
     $('dataPanel').innerHTML =
       item('近點', fmtLen(d.dof.nearM, u)) + item('遠點', fmtLen(d.dof.farM, u)) +
