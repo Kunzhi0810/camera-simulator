@@ -5,7 +5,7 @@ window.UI = (function () {
   var PRESETS = [
     { label: '自拍臂距', d: 0.8, f: 24, N: 2 },
     { label: '半身人像', d: 1.5, f: 50, N: 1.8 },
-    { label: '全身人像', d: 3, f: 85, N: 1.8 },
+    { label: '全身人像', d: 7, f: 85, N: 1.8 },
     { label: '街拍隨拍', d: 5, f: 35, N: 8 },
     { label: '風景全清晰', d: 8, f: 24, N: 8 }
   ];
