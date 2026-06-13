@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>鏡頭模擬器｜一張圖看懂景深</title>
 <meta name="description" content="互動模擬焦段、光圈、距離與片幅：側視圖即時顯示清晰範圍，3 秒看懂景深。">
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📷</text></svg>'>
+<!-- 分享預覽卡（貼到 IG/FB/LINE 會顯示縮圖與標題） -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="鏡頭模擬器｜一張圖看懂景深">
+<meta property="og:description" content="拖動相機與人物，調整焦段、光圈、片幅——側視圖即時看懂景深、透視與取景。">
+<meta property="og:url" content="https://kunzhi0810.github.io/camera-simulator/">
+<meta property="og:image" content="https://kunzhi0810.github.io/camera-simulator/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="鏡頭模擬器｜一張圖看懂景深">
+<meta name="twitter:description" content="拖動相機與人物，調整焦段、光圈、片幅——側視圖即時看懂景深。">
+<meta name="twitter:image" content="https://kunzhi0810.github.io/camera-simulator/og-image.png">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -116,7 +127,15 @@
 </main>
 
 <footer class="site-foot">
-  <a class="ig-link" href="https://www.instagram.com/kunzhima/" target="_blank" rel="noopener">📷 @kunzhima</a>
+  <blockquote class="foot-quote">
+    "Photography is an art of observation. It's about finding something interesting in an ordinary place."
+    <cite>— Elliott Erwitt</cite>
+  </blockquote>
+  <div class="foot-contact">
+    <a class="ig-link" href="https://www.instagram.com/kunzhima/" target="_blank" rel="noopener">📷 @kunzhima</a>
+    <a class="mail-link" id="mailLink" href="#" rel="nofollow">✉ 聯絡我</a>
+  </div>
+  <div class="foot-stats" id="footStats" hidden>今日瀏覽 <b id="statToday">–</b>・總瀏覽 <b id="statTotal">–</b></div>
 </footer>
 
 <script src="js/optics.js"></script>
