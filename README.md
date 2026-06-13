@@ -14,8 +14,8 @@
 
 ## 使用
 
+- 線上 Demo：**https://kunzhi0810.github.io/camera-simulator/**
 - 本機：雙擊 `index.html` 即可
-- 線上：部署後填入網址
 
 ## 部署到 GitHub Pages
 
