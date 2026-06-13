@@ -25,7 +25,7 @@ function initContactEmail() {
 }
 
 // 人流統計：Cloudflare Worker 部署後把網址填進 COUNTER_API
-var COUNTER_API = '';
+var COUNTER_API = 'https://camera-counter.hmpowernet-ken.workers.dev';
 function initCounter() {
   if (!COUNTER_API) return;                 // 尚未設定 → 不顯示
   var dayKey = 'cs_hit_' + new Date().toISOString().slice(0, 10);
