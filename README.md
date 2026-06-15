@@ -36,7 +36,3 @@
 - `node tests/optics.test.js`（15 項光學基準斷言）
 - 瀏覽器開 `index.html?test=1`（console 自我檢核，含畫面與數據一致性）
 
-## 致謝
-
-介面概念啟發自 Jack Herrington 的 depth-of-field 工具；本專案為獨立實作，
-未使用其程式碼或圖形資產。
